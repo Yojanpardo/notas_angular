@@ -83,3 +83,50 @@ Es una directiva estructural de angular al igual que ngFor, nos ayuda a evaluar 
     </p>
 </ng-container>
 ~~~
+
+## Pasando parametros por la url
+En Platzinger necesitamos ingresar a un chat y para ello necesitamos conocer el Id de la persona con la que queremos tener una conversación, para ello podemos pasar los parametros por la url y lo podemos hacer de la siguiente manera:  
+~~~html
+<!-- En nuestro HTML declaramos una <a> con el siguiente parametro -->
+<p><b>Amigos</b></p>
+<ng-container *ngFor="let friend of friends; let i = index ">
+    <div *ngIf="friend.friend">
+        <a routerLink="/conversation/{{friend.uid}}">
+            {{ i+1 }}. {{ friend.nick }} - {{ friend.email }}
+        </a>
+    </div>
+</ng-container>
+~~~  
+Y en nuestro app-routing ponemos la siguiente URL:  
+~~~ts
+const routes: Routes = [
+  { path: '', component: HomeComponent },
+  { path: 'home', component: HomeComponent },
+  { path: 'login', component: LoginComponent },
+  /* Esta de aquí, definiendo el parametro de esta manera */
+  { path: 'conversation/:uid', component: ConversationComponent },
+  /* ---------------------------------------------------- */
+  { path: 'profile', component: ProfileComponent },
+];
+~~~
+
+## Servicios
+Los servicios son archivos de TS que nos aydan a no replicar código, sino simplemente implementar funcionalidades especificas donde sea que las requiramos, los podemos crear usando el comando ~~~ng g s <<Nombre>>~~~
+
+## Pipes en Angular
+Son elementos que se pueden incluir en el HTML y nos permiten aplicar transformaciones a los datos antes de mostrarlos.  
+* json
+* number:'<formato decimal>'
+* date:'<formato fecha>'  
+Más detalles en la documentacion de [Angular-pipes](https://angular.io/guide/pipes)   
+~~~html
+<p>
+  {{ friend | json }}
+</p>
+<p>
+  {{ price | number: '1.0-5' }}
+</p>
+<p>
+  {{ today | date: 'medium' }}
+</p>
+~~~
